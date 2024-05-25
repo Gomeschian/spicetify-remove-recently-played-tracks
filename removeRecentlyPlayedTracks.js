@@ -9,7 +9,7 @@
     return;
   }
 
-  const MAX_RECENT_TRACKS_REQUESTABLE = 50; // Spotify Get Recently Played Tracks max tracks per request (https://developer.spotify.com/documentation/web-api/reference/get-recently-played)
+  const MAX_RECENT_TRACKS_REQUESTABLE = 50; // Spotify Get Recently Played API max tracks per request (https://developer.spotify.com/documentation/web-api/reference/get-recently-played)
 
   const buttontxt = "Remove Recently Played Tracks";
 
@@ -34,6 +34,8 @@
       return recentlyPlayedTrackURIs;
     }
 
+    /* Can be used to read the playlist's tracks at the expense of an extra API call. Only gets the first 20 as is (https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks).
+
     async function getPlaylistTrackURIs() {
       const uri = uris[0];
       const uriFinal = uri.split(":")[2];
@@ -50,6 +52,7 @@
 
       return playlistTrackURIs;
     }
+    */
 
     async function deleteTracksFromPlaylist() {
       const recentlyPlayedTrackURIs = await getRecentlyPlayedTrackURIs();

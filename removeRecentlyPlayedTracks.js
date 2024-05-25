@@ -12,7 +12,7 @@
   const MAX_RECENT_TRACKS_REQUESTABLE = 50; // Spotify Get Recently Played API max tracks per request (https://developer.spotify.com/documentation/web-api/reference/get-recently-played)
   const API_DELAY = 5000; // Artificial delay in milliseconds between API calls
 
-  const buttontxt = "Remove Recently Played Tracks";
+  const buttontxt = "Remove recently played tracks";
 
   async function reducePlaylist(uris) {
     // Definitions

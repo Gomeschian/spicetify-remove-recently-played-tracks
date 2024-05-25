@@ -63,6 +63,7 @@
     }
     // Execution
     try {
+      console.log(getRecentlyPlayedTrackURIs());
       removeRecentlyPlayedFromPlaylist();
       Spicetify.showNotification("Removed Recently Played Tracks");
     } catch (e) {

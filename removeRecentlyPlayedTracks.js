@@ -52,33 +52,33 @@
     }
 
     async function deleteTracksFromPlaylist() {
-      const playlistTrackURIs = await getRecentlyPlayedTrackURIs();
-      console.log("uris to delete", playlistTrackURIs);
-      const uri = uris[0];
-      const uriFinal = uri.split(":")[2];
-      console.log(`https://api.spotify.com/v1/playlists/${uriFinal}/tracks`);
-      const response = await CosmosAsync.del(
-        `https://api.spotify.com/v1/playlists/${uriFinal}/tracks`,
-        {
-          tracks: playlistTrackURIs,
-        }
-      );
+      const recentlyPlayedTrackURIs = await getRecentlyPlayedTrackURIs();
+      const jsonURIs = JSON.stringify({
+        tracks: recentlyPlayedTrackURIs.map((uri) => ({ uri: uri })),
+      });
 
+      const uri = uris[0];
+      const uriFinal = uri.split(":")[2]; // Get Playlist ID
+
+      const requestURL = `https://api.spotify.com/v1/playlists/${uriFinal}/tracks`;
+      const response = await CosmosAsync.del(requestURL, jsonURIs);
       console.log(response);
+      if (!response.snapshot_id) {
+        throw new Error("Deletion request failed");
+      }
       return response;
     }
+
     // Execution
-    const recentlyPlayedTrackURIs = await getRecentlyPlayedTrackURIs();
 
-    const playlistTrackURIs = await getPlaylistTrackURIs();
-    // console log list of tracks in common between the two lists
-    const intersection = playlistTrackURIs.filter((value) =>
-      recentlyPlayedTrackURIs.includes(value)
-    );
-    console.log("intersection", intersection);
-
-    await deleteTracksFromPlaylist();
-    Spicetify.showNotification("Removed Recently Played Tracks");
+    deleteTracksFromPlaylist()
+      .then(() => {
+        Spicetify.showNotification("Removed Recently Played Tracks");
+      })
+      .catch((error) => {
+        console.error(error);
+        Spicetify.showNotification("Failed to remove Recently Played Tracks");
+      });
   }
 
   function shouldDisplayContextMenu(uris) {

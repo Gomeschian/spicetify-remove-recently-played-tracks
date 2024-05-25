@@ -9,14 +9,20 @@
     return;
   }
 
+  const MAX_RECENT_TRACKS_REQUESTABLE = 50; // Spotify Get Recently Played Tracks max tracks per request (https://developer.spotify.com/documentation/web-api/reference/get-recently-played)
+
   const buttontxt = "Remove Recently Played Tracks";
 
   async function reducePlaylist(uris) {
+    // Definitions
+
     async function getRecentlyPlayedTrackURIs() {
+      const numberOfRecentlyPlayedTracks = MAX_RECENT_TRACKS_REQUESTABLE;
+
       const response = await CosmosAsync.get(
         "https://api.spotify.com/v1/me/player/recently-played",
         {
-          limit: 50,
+          limit: numberOfRecentlyPlayedTracks,
           before: new Date().getTime(), // Current time as a unicode timestamp
         }
       );
@@ -61,7 +67,7 @@
       Spicetify.showNotification("Removed Recently Played Tracks");
     } catch (e) {
       console.error(e);
-      Spicetify.showNotification("Failed to remove Recently Played Tracks");
+      Spicetify.showNotification("Failed to Remove Recently Played Tracks");
     }
   }
 

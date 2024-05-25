@@ -10,6 +10,7 @@
   }
 
   const MAX_RECENT_TRACKS_REQUESTABLE = 50; // Spotify Get Recently Played API max tracks per request (https://developer.spotify.com/documentation/web-api/reference/get-recently-played)
+  const API_DELAY = 5000; // Artificial delay in milliseconds between API calls
 
   const buttontxt = "Remove Recently Played Tracks";
 
@@ -26,7 +27,21 @@
           before: new Date().getTime(), // Current time as a unicode timestamp
         }
       );
+      console.log("Recently played tracks (full details):", response);
       const recentlyPlayedTracks = response.items;
+      // Console log recently played tracks artist - name (album name)
+      console.log(
+        "Recently played tracks artist - name (album name):",
+        recentlyPlayedTracks.map(
+          (recentlyPlayedTrack) =>
+            recentlyPlayedTrack.track.artists[0].name +
+            " - " +
+            recentlyPlayedTrack.track.name +
+            " (" +
+            recentlyPlayedTrack.track.album.name +
+            ")"
+        )
+      );
       const recentlyPlayedTrackURIs = recentlyPlayedTracks.map(
         (recentlyPlayedTrack) => recentlyPlayedTrack.track.uri
       );
@@ -74,13 +89,18 @@
 
     // Execution
 
+    Spicetify.showNotification(
+      "Removing recently played tracks (wait ~5 seconds)..."
+    );
+    await new Promise((resolve) => setTimeout(resolve, API_DELAY));
+
     deleteTracksFromPlaylist()
       .then(() => {
-        Spicetify.showNotification("Removed Recently Played Tracks");
+        Spicetify.showNotification("Removed recently played tracks");
       })
       .catch((error) => {
         console.error(error);
-        Spicetify.showNotification("Failed to remove Recently Played Tracks");
+        Spicetify.showNotification("Failed to remove recently played tracks");
       });
   }
 

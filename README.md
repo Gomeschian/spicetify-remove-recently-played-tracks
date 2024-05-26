@@ -2,6 +2,9 @@
 
 Spicetify context menu extension that removes from the selected playlist any tracks among the user's 50 most recently played, per Spotify's Web API Get Recently Played Tracks endpoint (https://developer.spotify.com/documentation/web-api/reference/get-recently-played). Very gratefully created using Feature Shuffle by CharlieS1103 as a template (https://github.com/CharlieS1103/spicetify-extensions).
 
+![sample](/sample1.png)
+![sample](/sample2.png)
+
 ## Manual Installation
 
 1. Install Spicetify: (https://spicetify.app/docs/getting-started)

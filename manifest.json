@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Remove Recently Played Tracks from Playlist", 
+    "description": "Context menu button to remove recent listens from selected playlist",
+    "preview": "sample1.png",
+    "main": "removeRecentlyPlayedTracks.js",
+    "readme": "README.md",
+    "tags": ["utility"]
+  }
+]
